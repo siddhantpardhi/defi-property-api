@@ -252,7 +252,96 @@ The platform integrates with:
 - `POST /api/wallet/deposit` - Create deposit
 - `POST /api/wallet/withdraw` - Create withdrawal
 
-## 🎨 Styling & UI
+### Properties (New - Assignment Implementation)
+- `POST /api/properties` - Create a new property
+- `GET /api/properties` - Get all properties (with optional status filter and pagination)
+- `GET /api/properties/:id` - Get property by ID
+- `PUT /api/properties/:id` - Update property
+- `DELETE /api/properties/:id` - Delete property
+
+**Features:**
+- Full CRUD operations for property management
+- Validation using Zod schema validation
+- Status filtering (available, sold, pending, draft)
+- Pagination support (limit and offset)
+- Comprehensive error handling (404 for not found, 400 for validation errors)
+- In-memory data storage (array-based)
+- Complete test suite with 18 passing tests
+
+**Query Parameters:**
+- `?status=available` - Filter properties by status
+- `?limit=10` - Limit number of results
+- `?offset=0` - Pagination offset
+
+**Request Body Example (POST/PUT):**
+```json
+{
+  "userId": "0123456789",
+  "userName": "Ether",
+  "title": "Beautiful House",
+  "address": "0x12312313213",
+  "price": 500000,
+  "note": "Optional note",
+  "status": "available"
+}
+```
+
+## 📝 Property API Implementation Details
+
+### Files Created:
+1. **`server/models/Property.js`** - Property model with in-memory storage and PropertyService
+   - Property class with validation
+   - PropertyService with CRUD methods (create, findById, getAll, update, delete)
+   - In-memory array storage
+
+2. **`server/controllers/PropertyController.js`** - Property controller with all endpoint handlers
+   - create() - POST /api/properties
+   - getAll() - GET /api/properties
+   - getById() - GET /api/properties/:id
+   - update() - PUT /api/properties/:id
+   - delete() - DELETE /api/properties/:id
+
+3. **`server/routes/properties.js`** - Property routes configuration
+   - All 5 routes with validation middleware
+   - Query parameter validation for filtering and pagination
+
+4. **`server/test/properties.test.js`** - Comprehensive test suite
+   - 18 test cases covering all endpoints
+   - Validation tests
+   - Error handling tests
+   - Status filtering tests
+   - Pagination tests
+
+### Files Modified:
+1. **`server/middlewares/validation.js`** - Added property validation schemas
+   - `createPropertySchema` - For POST requests
+   - `updatePropertySchema` - For PUT requests (all fields optional)
+   - `propertyQuerySchema` - For query parameter validation
+
+2. **`server/index.js`** - Registered property routes
+   - Added `app.use("/api/properties", propertyRoutes)`
+   - Added test environment check to prevent server startup during tests
+
+3. **`package.json`** - Added test scripts
+   - `"test": "NODE_ENV=test jest --forceExit"`
+   - `"test:watch": "NODE_ENV=test jest --watch"`
+   - Added jest and supertest as dev dependencies
+
+### Testing:
+Run the test suite:
+```bash
+npm run test <relative-test-path>
+```
+
+All 18 tests pass, covering:
+- Property creation (with required and optional fields)
+- Validation errors (missing fields, invalid price, invalid status)
+- Getting all properties with filtering and pagination
+- Getting property by ID (success and 404 cases)
+- Updating properties (single and multiple fields)
+- Deleting properties (success and 404 cases)
+
+## �� Styling & UI
 
 - **Framework**: Tailwind CSS
 - **Components**: Shadcn UI
