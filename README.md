@@ -252,7 +252,7 @@ The platform integrates with:
 - `POST /api/wallet/deposit` - Create deposit
 - `POST /api/wallet/withdraw` - Create withdrawal
 
-### Properties (New - Assignment Implementation)
+### Properties (Assignment Implementation - Siddhant Pardhi(siddhantpardhi93@gmail.com))
 - `POST /api/properties` - Create a new property
 - `GET /api/properties` - Get all properties (with optional status filter and pagination)
 - `GET /api/properties/:id` - Get property by ID
